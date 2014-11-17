@@ -1,0 +1,36 @@
+.new-button { 
+  width: 200px; 
+  padding: 5px; 
+  border: solid 1px black; 
+  float: left; 
+  position: fixed; 
+  top: 40px; 
+  left: 500px; 
+}
+.start-button { 
+  width: 200px; 
+  padding: 5px; 
+  border: solid 1px black; 
+  float: left; 
+  position: fixed; 
+  top: 80px; 
+  left: 500px;
+}
+.next-button { 
+  width: 200px; 
+  padding: 5px; 
+  border: solid 1px black; 
+  float: left; 
+  position: fixed; 
+  top: 120px; 
+  left: 500px;
+}
+.stop-button { 
+  width: 200px; 
+  padding: 5px; 
+  border: solid 1px black; 
+  float: left; 
+  position: fixed; 
+  top: 160px; 
+  left: 500px;
+}
