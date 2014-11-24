@@ -1,0 +1,9 @@
+#wrapper {
+  width: 500px;
+  margin: auto;
+}
+
+#field {
+  border-style: solid;
+  border-width: 1px;
+}
