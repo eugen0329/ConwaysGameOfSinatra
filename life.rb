@@ -3,7 +3,7 @@ require "data_mapper"
 require_relative "lib/map.rb"
 require_relative "lib/cell.rb"
 
-MAP_SIZE = Lifegame::Coordinates.new(20,20)
+MAP_SIZE = Lifegame::Coordinates.new(40,40)
 
 configure do 
   set :root, File.dirname(__FILE__)

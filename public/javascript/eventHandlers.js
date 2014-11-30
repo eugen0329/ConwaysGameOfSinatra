@@ -4,18 +4,35 @@ function setBtnsDisabled(state) {
   $("#btn-rand").attr("disabled", state);
 }
 
+function mainLoop(canvas) {
+  $.ajax({
+    type: "POST", 
+    url: "/next-gen", 
+    data: "cells=" + canvas.grid.flatten().join(""), 
+    async: false
+    }).done(function(data) {
+      //console.log(data);
+      canvas.grid.read(data);
+    });
+}
+
 function bindHandlers(canvas, onPlay) {
+  setInterval(function() {
+      if(onPlay) mainLoop(canvas);
+  }, 0);
+
   $("#btn-clear").on("click", function(event) {  
     event.preventDefault(); 
     event.stopPropagation();
-    canvas.clearGrid();
+    //canvas.clearGrid();
+    canvas.grid.clear();
   });
 
   $("#btn-rand").on("click", function(event) {  
     event.preventDefault(); 
     event.stopPropagation();
     $.get("/randomized", function(data) {
-      canvas.readGrid(data);
+      canvas.grid.read(data);
     });
   });
 
@@ -23,7 +40,7 @@ function bindHandlers(canvas, onPlay) {
     event.preventDefault(); 
     event.stopPropagation();
     $.post("/next-gen", "cells=" + canvas.grid.flatten().join(""), function(data) {
-      canvas.readGrid(data);
+      canvas.grid.read(data);
     });
   });
 
@@ -36,10 +53,10 @@ function bindHandlers(canvas, onPlay) {
     var j = Math.floor(mousePos.x/10);
 
     if(canvas.grid[i][j] == 0) {
-      canvas.fillCell(i, j, "blue");
+      canvas.grid.fillCell(i, j, "blue");
       canvas.grid[i][j] = 1;
     } else {
-      canvas.fillCell(i, j, "white");
+      canvas.grid.fillCell(i, j, "white");
       canvas.grid[i][j] = 0;
     }
   });
@@ -48,28 +65,12 @@ function bindHandlers(canvas, onPlay) {
     event.preventDefault(); 
     event.stopPropagation();
 
-    var gameLoop = function() {
-      var a = 3;
-      while(onPlay) {
-        $.ajax({
-          type: "POST", 
-          url: "/next-gen", 
-          data: "cells=" + canvas.grid.flatten().join(""), 
-          async: false
-          }).done(function(data) {
-            console.log(data);
-            canvas.readGrid(data);
-          });
-      }
-    };
-
     if(onPlay) {
       setBtnsDisabled(false);
       onPlay = false;
     } else {
       setBtnsDisabled(true);
       onPlay = true;
-      setTimeout(gameLoop, 0);
     }
   });
 }
