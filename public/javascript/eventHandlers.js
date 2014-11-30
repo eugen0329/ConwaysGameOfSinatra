@@ -1,30 +1,11 @@
-function setBtnsDisabled(state) {
-  $("#btn-step").attr("disabled", state);
-  $("#btn-clear").attr("disabled",state);
-  $("#btn-rand").attr("disabled", state);
-}
-
-function mainLoop(canvas) {
-  $.ajax({
-    type: "POST", 
-    url: "/next-gen", 
-    data: "cells=" + canvas.grid.flatten().join(""), 
-    async: false
-    }).done(function(data) {
-      //console.log(data);
-      canvas.grid.read(data);
-    });
-}
-
 function bindHandlers(canvas, onPlay) {
-  setInterval(function() {
+  setIntervalSync(function() {
       if(onPlay) mainLoop(canvas);
   }, 0);
 
   $("#btn-clear").on("click", function(event) {  
     event.preventDefault(); 
     event.stopPropagation();
-    //canvas.clearGrid();
     canvas.grid.clear();
   });
 
@@ -74,3 +55,38 @@ function bindHandlers(canvas, onPlay) {
     }
   });
 }
+
+function setBtnsDisabled(state) {
+  $("#btn-step").attr("disabled", state);
+  $("#btn-clear").attr("disabled",state);
+  $("#btn-rand").attr("disabled", state);
+}
+
+function mainLoop(canvas) {
+  $.ajax({
+    type: "POST", 
+    url: "/next-gen", 
+    data: "cells=" + canvas.grid.flatten().join(""), 
+    async: false
+    }).done(function(data) {
+      //console.log(data);
+      canvas.grid.read(data);
+    });
+}
+
+var setIntervalSync = function(func, delay) {
+  var intervalFunction, timeoutId, clear;
+  // clear the interval.
+  clear = function () {
+    clearTimeout(timeoutId);
+  };
+  intervalFunction = function () {
+    func();
+    timeoutId = setTimeout(intervalFunction, delay);
+  }
+  // delay start.
+  timeoutId = setTimeout(intervalFunction, delay);
+  // for clearing(capture the ret funct)
+  return clear;
+};
+
