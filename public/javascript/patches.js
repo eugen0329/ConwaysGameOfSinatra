@@ -7,4 +7,4 @@ String.prototype.supplant = function (o) {
 
 Array.prototype.flatten = function() {
   return [].concat.apply([], this);
-}
+};

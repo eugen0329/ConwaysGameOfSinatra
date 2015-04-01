@@ -2,17 +2,17 @@ require_relative "cell"
 
 module Lifegame
   Coordinates = Struct.new(:y,:x)
-  
+
   class Map
     NEIGHBORS = [ [-1, -1], [-1, 0], [-1, 1],
                   [ 0, -1],          [ 0, 1],
                   [ 1, -1], [ 1, 0], [ 1, 1] ]
-  
+
     def initialize(y, x)
       @curr = []
       @next = []
       @size = Coordinates.new(y, x)
-      @size.y.times do 
+      @size.y.times do
         @curr << Array.new(@size.x) { Cell.new(0) }
       end
       @next = @curr.map { |line| line.map(&:dup) }
@@ -28,10 +28,10 @@ module Lifegame
       return to_enum(:each_cell) unless block_given?
       @curr.flatten.each(&block)
     end
-  
+
     def change_gen
       @curr.each_with_index do |line, i|
-        line.each_index do |j| 
+        line.each_index do |j|
           neighbors_count = get_neighbors_count(i, j)
           case neighbors_count
           when 3
@@ -48,10 +48,10 @@ module Lifegame
     end
 
     def get_neighbors_count(y, x)
-      NEIGHBORS.map do |dy,dx| 
+      NEIGHBORS.map do |dy,dx|
         i = (y + dy) % @size.y
         j = (x + dx) % @size.x
-        @curr[i][j].stat 
+        @curr[i][j].stat
       end.inject(:+)
     end
 

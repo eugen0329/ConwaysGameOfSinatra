@@ -1,11 +1,10 @@
 require "sinatra"
-require "data_mapper"
 require_relative "lib/map.rb"
 require_relative "lib/cell.rb"
 
 MAP_SIZE = Lifegame::Coordinates.new(40,40)
 
-configure do 
+configure do
   set :root, File.dirname(__FILE__)
   set :public_directory, './public'
   set :views, settings.root + '/views'
@@ -28,7 +27,7 @@ get '/' do
 end
 
 post "/next-gen" do
-  if request.xhr? 
+  if request.xhr?
     cells =  params[:cells].each_char.map(&:to_i)
     Game.instance.each_cell { |cell| cell.stat = cells.shift }
     Game.instance.change_gen
@@ -39,7 +38,7 @@ post "/next-gen" do
 end
 
 get "/randomized" do
-  if request.xhr? 
+  if request.xhr?
     Game.instance.randomize.each_cell.map(&:stat).join
   else
     redirect "/"

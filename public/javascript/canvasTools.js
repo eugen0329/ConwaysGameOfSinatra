@@ -3,7 +3,7 @@ function Canvas(selector) {
 
   this.impl = document.getElementById("field");
   this.size = {
-    x: parseInt(this.impl.getAttribute("width")), 
+    x: parseInt(this.impl.getAttribute("width")),
     y: parseInt(this.impl.getAttribute("height"))
   };
   this.grid = null;
@@ -15,11 +15,11 @@ function Canvas(selector) {
     }
 
     this.grid.lineWidth = typeof attr.lineWidth == "undefined" ? 0 : attr.lineWidth;
-    if(this.grid.lineWidth != 0) this.drawGrid(attr);
+    if(this.grid.lineWidth !== 0) this.drawGrid(attr);
 
     this.grid.fillCell = function(i, j, color) {
-      var context = thisCanvas.impl.getContext("2d"); 
-    
+      var context = thisCanvas.impl.getContext("2d");
+
       context.beginPath();
       context.rect(j * 10, i * 10, 10 - this.lineWidth, 10 - this.lineWidth);
       context.fillStyle = color;
@@ -34,7 +34,7 @@ function Canvas(selector) {
         }
       }
     };
-    
+
     this.grid.read = function(string) {
       var cells = string.split("");
       for(var i = 0; i < this.length; i++) {
@@ -48,11 +48,11 @@ function Canvas(selector) {
   };
 
   this.drawGrid= function(attr) {
-    var context = this.impl.getContext("2d"); 
+    var context = this.impl.getContext("2d");
     var lim = {
-      x: attr.count.x * attr.cell.x - 0.5, 
+      x: attr.count.x * attr.cell.x - 0.5,
       y: attr.count.y * attr.cell.y - 0.5};
-  
+
     context.beginPath();
     context.moveTo(0, 0);
     for (var x = 0; x <= lim.x; x += attr.cell.x) {
@@ -63,11 +63,11 @@ function Canvas(selector) {
       context.moveTo(0, y - 0.5);
       context.lineTo(lim.x, y - 0.5);
     }
-  
+
     context.lineWidth = this.lineWidth;
     context.strokeStyle = "black";
     context.stroke();
-  }
+  };
 
   this.getMousePos = function(event) {
     var rect = this.impl.getBoundingClientRect();
@@ -75,5 +75,5 @@ function Canvas(selector) {
       x: event.clientX - rect.left,
       y: event.clientY - rect.top
     };
-  }
+  };
 }

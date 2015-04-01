@@ -3,22 +3,22 @@ function bindHandlers(canvas, onPlay) {
       if(onPlay) mainLoop(canvas);
   }, 0);
 
-  $("#btn-clear").on("click", function(event) {  
-    event.preventDefault(); 
+  $("#btn-clear").on("click", function(event) {
+    event.preventDefault();
     event.stopPropagation();
     canvas.grid.clear();
   });
 
-  $("#btn-rand").on("click", function(event) {  
-    event.preventDefault(); 
+  $("#btn-rand").on("click", function(event) {
+    event.preventDefault();
     event.stopPropagation();
     $.get("/randomized", function(data) {
       canvas.grid.read(data);
     });
   });
 
-  $("#btn-step").on("click", function(event) {  
-    event.preventDefault(); 
+  $("#btn-step").on("click", function(event) {
+    event.preventDefault();
     event.stopPropagation();
     $.post("/next-gen", "cells=" + canvas.grid.flatten().join(""), function(data) {
       canvas.grid.read(data);
@@ -26,7 +26,7 @@ function bindHandlers(canvas, onPlay) {
   });
 
   $("#field").mousedown(function(event) {
-    event.preventDefault(); 
+    event.preventDefault();
     event.stopPropagation();
 
     var mousePos = canvas.getMousePos(event);
@@ -42,8 +42,8 @@ function bindHandlers(canvas, onPlay) {
     }
   });
 
-  $("#btn-play").on("click", function(event) {  
-    event.preventDefault(); 
+  $("#btn-play").on("click", function(event) {
+    event.preventDefault();
     event.stopPropagation();
 
     if(onPlay) {
@@ -64,9 +64,9 @@ function setBtnsDisabled(state) {
 
 function mainLoop(canvas) {
   $.ajax({
-    type: "POST", 
-    url: "/next-gen", 
-    data: "cells=" + canvas.grid.flatten().join(""), 
+    type: "POST",
+    url: "/next-gen",
+    data: "cells=" + canvas.grid.flatten().join(""),
     async: false
     }).done(function(data) {
       //console.log(data);
